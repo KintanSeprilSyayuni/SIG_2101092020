@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>GeoJSON tutorial - Leaflet</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 600px;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+
+	
+</head>
+<body>
+
+<div id='map'></div>
+
+<script src="indonesia.geojson" type="text/javascript"></script>
+
+<script>
+	const map = L.map('map').setView([-0.9243019661209293, 100.37255321635345], 17);
+
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+    L.marker([-0.9243019661209293, 100.37255321635345]).bindTooltip("Kampung Kintan").addTo(map);
+
+    
+    var JalanKerumah = [
+            [-0.9243019661209293, 100.37255321635345],
+            [-0.9246560582611025, 100.37047472831324],
+            [-0.924924244220098, 100.36826458812709],
+            [-0.9250529734768068, 100.36670890684408],
+            [-0.9253640691520856, 100.36488500477678],
+            [-0.9256977620288939, 100.36281359165201],
+        ];
+
+        L.polyline(JalanKerumah).addTo(map);
+
+        var locations = [  
+        [-0.9243019661209293, 100.37255321635345],
+            [-0.9246560582611025, 100.37047472831324],
+            [-0.924924244220098, 100.36826458812709],
+            [-0.9250529734768068, 100.36670890684408],
+            [-0.9253640691520856, 100.36488500477678],
+            [-0.9256977620288939, 100.36281359165201],];
+
+    for (var i = 0; i < locations.length; i++) {
+        marker = new L.marker([locations[i][0], locations[i][1]]).addTo(map);
+    }
+
+    var info_pnp = '<p style="text-align: center;"> <img src="https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=4YM3veuaxJTaID-OWp086A&cb_client=search.gws-prod.gps&w=408&h=240&yaw=197.05898&pitch=0&thumbfov=100" width="250px" height="100px"></p><p style="text-align: justify;">Rumah kintan beralamat di Jln. Alai Timur no.63, saya membuat line jalan menuju ke Masid Raya Sumatera Barat, karena merupakan Masjid terbesar di Sumbar</p>';
+    L.marker([-0.9243019661209293, 100.37255321635345]).bindTooltip("Rumah Kintan").bindPopup(info_pnp).addTo(map);
+
+    var info_pnp = '<p style="text-align: center;"> <img src="https://lh5.googleusercontent.com/p/AF1QipOum5vgQ-TF_KHICLYTEno_T5i5eXtqJhxPRihz=w408-h544-k-no" width="250px" height="100px"></p><p style="text-align: justify;">Masjid Raya Sumbar. Line ini berakhir di sini</p>';
+    L.marker([-0.9256977620288939, 100.36281359165201]).bindTooltip("Masjid Raya Sumbar").bindPopup(info_pnp).addTo(map);
+
+    var circle = L.circle([-0.9243019661209293, 100.37255321635345],{ 
+        color: 'red',
+        fillcolor: '#f03',
+        fillOpacity: 0.5,
+        radius: 120
+    }).addTo(map).bindPopup('Zona Kampung saya');
+
+    var polygon = L.polygon([
+        [-0.9243019661209293, 100.37255321635345],
+        [-0.9203699073078672, 100.36737776202777],
+        [-0.9256977620288939, 100.36281359165201]
+    ]).addTo(map).bindPopup('Polygon dari Rumah kintan ke RS Ibnu Sina dan Masjid Raya Sumbar');
+
+    var KordinatRumahSaya = [
+            [-0.914666, 100.465205],
+            [-0.914667, 100.465194],
+            [-0.915009, 100.468138],
+            [-0.914627, 100.468936],
+            [-0.913050, 100.469191],
+            [-0.912885, 100.467826],
+            [-0.912367, 100.465948],
+            [-0.913139, 100.465775],
+            [-0.914264, 100.465672],
+            [-0.914508, 100.465216],
+           
+        ];
+
+        var areaPoliteknik = L.polygon(KordinatAreaPoliteknik,{color: 'purple'})
+        .addTo(map);
+
+    const bicycleRentalLayer = L.geoJSON([padang], {
+
+    style(feature) {
+        return feature.properties && feature.properties.style;
+    },
+
+    onEachFeature,
+
+    pointToLayer(feature, latlng) {
+        return L.circleMarker(latlng, {
+            radius: 8,
+            fillColor: '#ff7800',
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
+    }
+    }).addTo(map);
+
+   
+
+</script>
+</body>
+</html>
